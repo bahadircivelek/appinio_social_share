@@ -41,11 +41,11 @@ abstract class AppinioSocialSharePlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<String> shareToInstagramFeed(String message, String? filePath) async {
+  Future<String> shareToInstagramFeed(String message, {String? imagePath, List<String>? imagePaths}) async {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<String> shareToInstagramFeedAndroid(List<String> filePaths) async {
+  Future<String> shareToInstagramFeedAndroid(String message, List<String> filePaths) async {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 

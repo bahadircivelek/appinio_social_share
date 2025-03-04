@@ -28,7 +28,7 @@ public class ShareUtil{
     let argVideoFile: String  = "videoFile";
 
 
-    
+
     public func getInstalledApps(result: @escaping FlutterResult){
         let apps = [["instagram","instagram"],["facebook-stories","facebook_stories"],["whatsapp","whatsapp"],["tg","telegram"],["fb-messenger","messenger"],["tiktok","snssdk1233"],["instagram-stories","instagram_stories"],["twitter","twitter"],["sms","message"]]
         var output:[String: Bool] = [:]
@@ -54,6 +54,8 @@ public class ShareUtil{
 
     public func shareToInstagramFeed(args : [String: Any?],result: @escaping FlutterResult) {
         let filePath = args[argImagePath] as? String
+        let message = args[argMessage] as? String ?? ""
+
         if(!isImage(filePath: filePath!)) {
             return shareVideoToInstagramFeed(args: args, result:result)
         } else{
@@ -76,6 +78,7 @@ public class ShareUtil{
 
     func shareVideoToInstagramFeed(args : [String: Any?],result: @escaping FlutterResult) {
         let videoFile = args[argImagePath] as? String
+        let message = args[argMessage] as? String ?? ""
         let backgroundVideoUrl = URL(fileURLWithPath: videoFile!)
         let videoData = try? Data(contentsOf: backgroundVideoUrl) as NSData
 
@@ -153,6 +156,7 @@ public class ShareUtil{
 
     func shareImageToInstagramFeed(args : [String: Any?],result: @escaping FlutterResult) {
             let videoFile = args[argImagePath] as? String
+            let message = args[argMessage] as? String ?? ""
             let backgroundVideoUrl = URL(fileURLWithPath: videoFile!)
             let videoData = try? Data(contentsOf: backgroundVideoUrl) as NSData
 
@@ -261,20 +265,20 @@ public class ShareUtil{
         UIApplication.topViewController()?.present(activityViewController, animated: true, completion: nil)
         result(SUCCESS)
     }
-    
-    
+
+
     func copyToClipboard(args : [String: Any?],result: @escaping FlutterResult){
         let message = args[self.argMessage] as? String
         UIPasteboard.general.string = message!
         result(SUCCESS)
     }
-    
-    
-    
+
+
+
     func shareToWhatsApp(args : [String: Any?],result: @escaping FlutterResult)  {
         let message = args[self.argMessage] as? String
         let whatsURL = "whatsapp://send?text="+message!
-        
+
         var characterSet = CharacterSet.urlQueryAllowed
         characterSet.insert(charactersIn: "?&")
         let whatsAppURL  = NSURL(string: whatsURL.addingPercentEncoding(withAllowedCharacters: characterSet)!)
@@ -288,13 +292,13 @@ public class ShareUtil{
             result(ERROR_APP_NOT_AVAILABLE);
         }
     }
-    
-    
-    
+
+
+
     func shareToFacebookPost(args : [String: Any?],result: @escaping FlutterResult, delegate: SharingDelegate) {
         let message = args[self.argMessage] as? String
         let imagePaths = args[self.argImagePaths] as? [String]
-        
+
         let content = SharePhotoContent()
         var photos : [SharePhoto] = []
         for image in imagePaths! {
@@ -315,27 +319,27 @@ public class ShareUtil{
         }
         dialog.show()
         result(self.SUCCESS)
-        
+
     }
-    
-    
+
+
     func shareToTelegram(args : [String: Any?],result: @escaping FlutterResult) {
         let message = args[self.argMessage] as? String
-        
+
         guard let telegramURL = URL(string: "https://telegram.me") else {
             result(ERROR_APP_NOT_AVAILABLE)
             return
         }
-        
+
         guard let mess = message else {
             result(ERROR)
             return
         }
-        
+
         if (UIApplication.shared.canOpenURL(telegramURL)) {
             let urlString = "tg://msg?text=\(mess)"
             let tgUrl = URL.init(string: urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!)
-            
+
             if UIApplication.shared.canOpenURL(tgUrl!) {
                 UIApplication.shared.open(tgUrl!)
                 result(SUCCESS)
@@ -346,7 +350,7 @@ public class ShareUtil{
             result(ERROR_APP_NOT_AVAILABLE)
         }
     }
-    
+
 
 
     public func shareToInstagramDirect(args : [String: Any?],result: @escaping FlutterResult){
@@ -367,10 +371,10 @@ public class ShareUtil{
             result(ERROR_FEATURE_NOT_AVAILABLE_FOR_THIS_VERSON)
         }
     }
-    
-    
-    
-    
+
+
+
+
     public func shareToMessenger(args : [String: Any?],result: @escaping FlutterResult){
         if #available(iOS 10, *){
             let message = args[self.argMessage] as? String
@@ -389,7 +393,7 @@ public class ShareUtil{
             result(ERROR_FEATURE_NOT_AVAILABLE_FOR_THIS_VERSON)
         }
     }
-    
+
     public func shareToSms(args : [String: Any?],result: @escaping FlutterResult){
         let message = args[self.argMessage] as? String
         if #available(iOS 10, *){
@@ -403,7 +407,7 @@ public class ShareUtil{
         }
         result(SUCCESS)
     }
-    
+
     public func shareToFacebookStory(args : [String: Any?],result: @escaping FlutterResult) {
         let appId = args[self.argAppId] as? String
         let imagePath = args[self.argbackgroundImage] as? String
@@ -413,13 +417,13 @@ public class ShareUtil{
         let backgroundBottomColor =  args[self.argBackgroundBottomColor] as? String
         let attributionURL =  args[self.argAttributionURL] as? String
 
-    
+
         guard let facebookURL = URL(string: "facebook-stories://share") else {
             result(ERROR_APP_NOT_AVAILABLE)
             return
         }
-        
-        
+
+
         if (UIApplication.shared.canOpenURL(facebookURL)) {
             var pasteboardItems = [
                 "com.facebook.sharedSticker.attributionURL": [attributionURL ?? ""],
@@ -464,8 +468,8 @@ public class ShareUtil{
             result(ERROR_APP_NOT_AVAILABLE)
         }
     }
-    
-    
+
+
     func shareToTwitter(args : [String: Any?],result: @escaping FlutterResult) {
         let title = args[self.argMessage] as? String
         let images = args[self.argImagePaths] as? [String]
@@ -473,8 +477,8 @@ public class ShareUtil{
             result(ERROR_APP_NOT_AVAILABLE)
             return
         }
-        
-        
+
+
         let composeCtl = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
         if #unavailable(iOS 16) {
             composeCtl?.add(URL(string: title!))
@@ -489,7 +493,7 @@ public class ShareUtil{
         result(SUCCESS)
     }
 
-    
+
     func shareToInstagramStory(args : [String: Any?],result: @escaping FlutterResult) {
         if #available(iOS 10.0, *){
             let appId = args[self.argAppId] as? String
@@ -500,13 +504,13 @@ public class ShareUtil{
             let backgroundBottomColor =  args[self.argBackgroundBottomColor] as? String
             let attributionURL =  args[self.argAttributionURL] as? String
 
-            
+
             guard let instagramURL = URL(string: "instagram-stories://share?source_application=\(appId!)") else {
                 result(ERROR_APP_NOT_AVAILABLE)
                 return
             }
-            
-     
+
+
             if (UIApplication.shared.canOpenURL(instagramURL)) {
                 var backgroundImage: UIImage?;
                 if(!(imagePath==nil)){
@@ -543,10 +547,10 @@ public class ShareUtil{
         }else{
             result(ERROR_FEATURE_NOT_AVAILABLE_FOR_THIS_VERSON)
         }
-        
+
     }
-    
-    
+
+
     public func shareImageToWhatsApp(args : [String: Any?],result: @escaping FlutterResult, delegate: SharingDelegate) {
       let imagePath = args[self.argImagePath] as? String
 
@@ -554,13 +558,13 @@ public class ShareUtil{
         result(FlutterError(code: "INVALID_PATH", message: "The image path is invalid", details: nil))
         return
       }
-      
+
       guard let image = UIImage(contentsOfFile: url.path) else {
         result(FlutterError(code: "IMAGE_ERROR", message: "Could not load image", details: nil))
         return
       }
-    
-    
+
+
         let urlWhats = "whatsapp://app"
         if let urlString = urlWhats.addingPercentEncoding(withAllowedCharacters:CharacterSet.urlQueryAllowed) {
             if let whatsappURL = URL(string: urlString) {
@@ -579,7 +583,7 @@ public class ShareUtil{
                                 print(error)
                             }
                         }
-                    
+
 
                 } else {
                    print("Cannot open whatsapp")
@@ -587,7 +591,7 @@ public class ShareUtil{
             }
         }
     }
-    
+
 }
 
 extension UIApplication {

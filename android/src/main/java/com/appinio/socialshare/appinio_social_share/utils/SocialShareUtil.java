@@ -77,11 +77,11 @@ public class SocialShareUtil {
     }
 
     public String shareToInstagramFeed(String imagePath, String message, Context activity, String text) {
-        return shareFileAndTextToPackage(imagePath, text, activity, INSTAGRAM_PACKAGE);
+        return shareFileAndTextToPackage(imagePath, message, activity, INSTAGRAM_PACKAGE);
     }
 
-    public String shareToInstagramFeedFiles(ArrayList<String> imagePaths, Context activity, String text) {
-        return shareFilesToPackage(imagePaths, activity, INSTAGRAM_PACKAGE);
+    public String shareToInstagramFeedFiles(ArrayList<String> imagePaths, Context activity, String message) {
+        return shareFilesToPackage(imagePaths, activity, INSTAGRAM_PACKAGE, message);
     }
 
     public String shareToTikTok(ArrayList<String> imagePaths, Context activity) {
@@ -341,6 +341,10 @@ public class SocialShareUtil {
 
 
     private String shareFilesToPackage(List<String> imagePaths, Context activity, String packageName) {
+        return shareFilesToPackage(imagePaths, activity, packageName, null);
+    }
+
+    private String shareFilesToPackage(List<String> imagePaths, Context activity, String packageName, String message) {
         if (imagePaths == null || imagePaths.isEmpty()) return "No files to share";
         Intent shareIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
         ArrayList<Uri> files = new ArrayList<Uri>();
@@ -350,6 +354,9 @@ public class SocialShareUtil {
         }
         shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
         shareIntent.setType(getMimeTypeOfFile(imagePaths.get(0)));
+        if (message != null && !message.isEmpty()) {
+            shareIntent.putExtra(Intent.EXTRA_TEXT, message);
+        }
         shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         shareIntent.setPackage(packageName);

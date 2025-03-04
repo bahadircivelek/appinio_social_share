@@ -28,7 +28,7 @@ public class SwiftAppinioSocialSharePlugin: NSObject, FlutterPlugin, SharingDele
     var flutterResult: FlutterResult!
 
 
-    
+
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "appinio_social_share", binaryMessenger: registrar.messenger())
     let instance = SwiftAppinioSocialSharePlugin()
@@ -90,19 +90,19 @@ public class SwiftAppinioSocialSharePlugin: NSObject, FlutterPlugin, SharingDele
           result(shareUtil.ERROR)
       }
   }
-    
+
     public func sharer(_ sharer: Sharing, didCompleteWithResults results: [String : Any]) {
         flutterResult(shareUtil.SUCCESS)
      }
-     
+
      public func sharer(_ sharer: Sharing, didFailWithError error: Error) {
          flutterResult(shareUtil.ERROR)
      }
-     
+
      public func sharerDidCancel(_ sharer: Sharing) {
          flutterResult(shareUtil.ERROR)
      }
-    
-    
-     
+
+
+
 }

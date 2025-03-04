@@ -209,16 +209,32 @@ class MethodChannelAppinioSocialShare extends AppinioSocialSharePlatform {
   }
 
   @override
-  Future<String> shareToInstagramFeed(String message, String? filePath) async {
-    return ((await methodChannel.invokeMethod<String>(
-            instagramFeed, {"imagePath": filePath, "message": message})) ??
-        "");
+  Future<String> shareToInstagramFeed(String message, {String? imagePath, List<String>? imagePaths}) async {
+    if (Platform.isIOS) {
+      // On iOS, we'll use either a single image path or the first image from imagePaths
+      final String? pathToUse = imagePath ?? (imagePaths?.isNotEmpty == true ? imagePaths!.first : null);
+      return ((await methodChannel.invokeMethod<String>(
+              instagramFeed, {"imagePath": pathToUse, "message": message})) ??
+          "");
+    } else {
+      // On Android, we'll pass all image paths
+      final List<String> paths = [];
+      if (imagePath != null) paths.add(imagePath);
+      if (imagePaths != null) paths.addAll(imagePaths);
+
+      return ((await methodChannel.invokeMethod<String>(instagramFeedFiles, {
+            "imagePaths": paths,
+            "message": message,
+          })) ??
+          "");
+    }
   }
 
   @override
-  Future<String> shareToInstagramFeedAndroid(List<String> filePaths) async {
+  Future<String> shareToInstagramFeedAndroid(String message, List<String> filePaths) async {
     return ((await methodChannel.invokeMethod<String>(instagramFeedFiles, {
           "imagePaths": filePaths,
+          "message": message,
         })) ??
         "");
   }
