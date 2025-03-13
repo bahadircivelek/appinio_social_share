@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+  <channel>
+    <title>Funi Güncellemeler</title>
+    
+    <!-- Versiyon 4.0.0 -->
+    <item>
+      <title>Funi 4.0.0</title>
+      <description>
+        - Yeni özellik: 3D görüntüleme\n
+        - Performans iyileştirmeleri\n
+        - Güvenlik güncellemeleri
+      </description>
+      <pubDate>Mon, 15 Jul 2024 09:00:00 +0300</pubDate>
+      <enclosure 
+        url="https://apps.apple.com/tr/app/funi/id123456789" 
+        sparkle:version="4.0.0"
+        sparkle:os="ios"/>
+    </item>
+
+    <!-- Versiyon 3.2.1 -->
+    <item>
+      <title>Funi 3.2.1</title>
+      <description>- Hata düzeltmeleri</description>
+      <pubDate>Fri, 01 Mar 2024 14:30:00 +0300</pubDate>
+      <enclosure 
+        url="https://play.google.com/store/apps/details?id=dev.funi.mobile"
+        sparkle:version="3.2.1"
+        sparkle:os="android"/>
+    </item>
+  </channel>
+</rss>
