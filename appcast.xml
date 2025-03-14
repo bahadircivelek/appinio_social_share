@@ -2,24 +2,20 @@
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
   <channel>
     <title>Funi Güncellemeler</title>
-    <link>https://example.com</link> <!-- EKLENDİ -->
-    <description>Funi resmi güncellemeleri</description> <!-- EKLENDİ -->
-    
-    <!-- Versiyon 4.0.0 -->
+
     <item>
       <title>Funi 3.2.0</title>
       <description><![CDATA[
-        - Yeni özellik: 3D görüntüleme<br/>
-        - Performans iyileştirmeleri<br/>
+        - Yeni özellik: 3D görüntüleme
+        - Performans iyileştirmeleri
         - Güvenlik güncellemeleri
-        [:mav: 2.2.3]
       ]]></description>
       <pubDate>Mon, 15 Jul 2024 09:00:00 +0300</pubDate>
       <enclosure 
         url="https://apps.apple.com/tr/app/funi/id123456789" 
         sparkle:version="4.0.0"
         sparkle:os="ios"/>
-      <sparkle:minimumAutoupdateVersion>2.1</sparkle:minimumAutoupdateVersion>
+      <sparkle:minimumSystemVersion>17.0.0</sparkle:minimumSystemVersion>
     </item>
 
     <!-- Versiyon 3.2.2 -->
